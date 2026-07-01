@@ -1,0 +1,60 @@
+{
+  "_note": "Human-verified subset (hybrid launch set). Auto-extraction cannot self-certify, so a person eyeballed these 6 against the live pages on 2026-07-02. Prices are monthly USD (annual-billing rate where the page defaulted to annual). Affiliate rates are APPROX — confirm at signup. The other 6 tools are pending per-site parsers / re-extraction (see README backfill).",
+  "verified_on": "2026-07-02",
+  "tools": [
+    {
+      "id": "systeme-io", "name": "Systeme.io", "category": "all-in-one",
+      "website": "https://systeme.io", "pricing_page": "https://systeme.io/pricing",
+      "affiliate": {"program_url": "https://systeme.io/affiliate-program", "model": "recurring", "rate_approx": "60% lifetime"},
+      "tiers": [
+        {"name": "Free", "monthly_usd": 0}, {"name": "Startup", "monthly_usd": 17},
+        {"name": "Webinar", "monthly_usd": 47}, {"name": "Unlimited", "monthly_usd": 97}
+      ]
+    },
+    {
+      "id": "gohighlevel", "name": "GoHighLevel", "category": "all-in-one",
+      "website": "https://www.gohighlevel.com", "pricing_page": "https://www.gohighlevel.com/pricing",
+      "affiliate": {"program_url": "https://www.gohighlevel.com/affiliates", "model": "recurring", "rate_approx": "40% lifetime + 5% tier2"},
+      "tiers": [
+        {"name": "Starter", "monthly_usd": 97}, {"name": "Unlimited", "monthly_usd": 297},
+        {"name": "Pro/SaaS", "monthly_usd": 497}
+      ]
+    },
+    {
+      "id": "kajabi", "name": "Kajabi", "category": "course",
+      "website": "https://kajabi.com", "pricing_page": "https://kajabi.com/pricing",
+      "affiliate": {"program_url": "https://kajabi.com/partners", "model": "recurring", "rate_approx": "30% recurring"},
+      "tiers": [
+        {"name": "Starter", "monthly_usd": 89}, {"name": "Basic", "monthly_usd": 179},
+        {"name": "Growth", "monthly_usd": 249}, {"name": "Pro", "monthly_usd": 499}
+      ]
+    },
+    {
+      "id": "clickfunnels", "name": "ClickFunnels", "category": "funnel",
+      "website": "https://www.clickfunnels.com", "pricing_page": "https://www.clickfunnels.com/pricing",
+      "affiliate": {"program_url": "https://www.clickfunnels.com/affiliates", "model": "recurring", "rate_approx": "up to 30% recurring"},
+      "tiers": [
+        {"name": "Launch", "monthly_usd": 97}, {"name": "Scale", "monthly_usd": 197},
+        {"name": "Optimize", "monthly_usd": 297}
+      ]
+    },
+    {
+      "id": "podia", "name": "Podia", "category": "course",
+      "website": "https://www.podia.com", "pricing_page": "https://www.podia.com/pricing",
+      "affiliate": {"program_url": "https://www.podia.com/affiliates", "model": "recurring", "rate_approx": "30% recurring"},
+      "tiers": [
+        {"name": "Mover", "monthly_usd": 42}, {"name": "Shaker", "monthly_usd": 84},
+        {"name": "Earthquaker", "monthly_usd": 150}
+      ]
+    },
+    {
+      "id": "convertkit", "name": "Kit (ConvertKit)", "category": "email",
+      "website": "https://kit.com", "pricing_page": "https://kit.com/pricing",
+      "affiliate": {"program_url": "https://kit.com/affiliate", "model": "recurring", "rate_approx": "30% recurring (24mo)"},
+      "tiers": [
+        {"name": "Free", "monthly_usd": 0}, {"name": "Creator", "monthly_usd": 33},
+        {"name": "Creator Pro", "monthly_usd": 66}
+      ]
+    }
+  ]
+}

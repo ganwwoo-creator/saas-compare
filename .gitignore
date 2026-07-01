@@ -1,0 +1,9 @@
+# generated artifacts (rebuilt by scripts/update.py in CI)
+site/
+data/scraped.json
+data/tiers.json
+
+# python
+__pycache__/
+*.pyc
+.venv/

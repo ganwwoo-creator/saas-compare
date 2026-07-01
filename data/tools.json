@@ -1,0 +1,143 @@
+{
+  "_schema": {
+    "description": "Seed dataset for the SaaS comparison (data-moat) affiliate site. Niche: online-business builders (funnel / checkout / course / all-in-one). Commission fields are APPROXIMATE and MUST be verified at signup — programs change rates. commission.verified=false until confirmed.",
+    "fields": {
+      "id": "kebab-case unique slug",
+      "name": "display name",
+      "category": "funnel | checkout | course | all-in-one | website | email",
+      "website": "homepage",
+      "pricing_page": "public URL the scraper (step 2) pulls structured pricing from",
+      "affiliate": {
+        "program_url": "where to sign up",
+        "model": "recurring | flat | hybrid",
+        "rate_approx": "e.g. '60% lifetime' — APPROX, verify",
+        "cookie_days": "int or null",
+        "verified": "false until confirmed at signup"
+      },
+      "pricing_tiers": "[{name, monthly_usd}] — seed values, scraper refreshes",
+      "public_pricing": "true if pricing is on a scrapable public page (needed for the data moat)"
+    }
+  },
+  "tools": [
+    {
+      "id": "systeme-io",
+      "name": "Systeme.io",
+      "category": "all-in-one",
+      "website": "https://systeme.io",
+      "pricing_page": "https://systeme.io/pricing",
+      "affiliate": { "program_url": "https://systeme.io/affiliate-program", "model": "recurring", "rate_approx": "60% lifetime", "cookie_days": null, "verified": false },
+      "pricing_tiers": [ {"name": "Free", "monthly_usd": 0}, {"name": "Startup", "monthly_usd": 27}, {"name": "Webinar", "monthly_usd": 47}, {"name": "Unlimited", "monthly_usd": 97} ],
+      "public_pricing": true
+    },
+    {
+      "id": "gohighlevel",
+      "name": "GoHighLevel",
+      "category": "all-in-one",
+      "website": "https://www.gohighlevel.com",
+      "pricing_page": "https://www.gohighlevel.com/pricing",
+      "affiliate": { "program_url": "https://www.gohighlevel.com/affiliates", "model": "recurring", "rate_approx": "40% lifetime + 5% tier2", "cookie_days": null, "verified": false },
+      "pricing_tiers": [ {"name": "Starter", "monthly_usd": 97}, {"name": "Unlimited", "monthly_usd": 297}, {"name": "Pro/SaaS", "monthly_usd": 497} ],
+      "public_pricing": true
+    },
+    {
+      "id": "clickfunnels",
+      "name": "ClickFunnels",
+      "category": "funnel",
+      "website": "https://www.clickfunnels.com",
+      "pricing_page": "https://www.clickfunnels.com/pricing",
+      "affiliate": { "program_url": "https://www.clickfunnels.com/affiliates", "model": "recurring", "rate_approx": "up to 30% recurring", "cookie_days": 45, "verified": false },
+      "pricing_tiers": [ {"name": "Basic", "monthly_usd": 97}, {"name": "Pro", "monthly_usd": 147}, {"name": "Funnel Hacker", "monthly_usd": 208} ],
+      "public_pricing": true
+    },
+    {
+      "id": "kartra",
+      "name": "Kartra",
+      "category": "all-in-one",
+      "website": "https://home.kartra.com",
+      "pricing_page": "https://home.kartra.com/pricing",
+      "affiliate": { "program_url": "https://home.kartra.com/affiliates", "model": "recurring", "rate_approx": "40% recurring", "cookie_days": null, "verified": false },
+      "pricing_tiers": [ {"name": "Starter", "monthly_usd": 99}, {"name": "Growth", "monthly_usd": 189}, {"name": "Professional", "monthly_usd": 429} ],
+      "public_pricing": true
+    },
+    {
+      "id": "samcart",
+      "name": "SamCart",
+      "category": "checkout",
+      "website": "https://www.samcart.com",
+      "pricing_page": "https://www.samcart.com/pricing",
+      "affiliate": { "program_url": "https://www.samcart.com/partners", "model": "recurring", "rate_approx": "~40% recurring", "cookie_days": null, "verified": false },
+      "pricing_tiers": [ {"name": "Launch", "monthly_usd": 79}, {"name": "Grow", "monthly_usd": 159}, {"name": "Scale", "monthly_usd": 319} ],
+      "public_pricing": true
+    },
+    {
+      "id": "kajabi",
+      "name": "Kajabi",
+      "category": "course",
+      "website": "https://kajabi.com",
+      "pricing_page": "https://kajabi.com/pricing",
+      "affiliate": { "program_url": "https://kajabi.com/partners", "model": "recurring", "rate_approx": "30% recurring", "cookie_days": 30, "verified": false },
+      "pricing_tiers": [ {"name": "Kickstarter", "monthly_usd": 89}, {"name": "Basic", "monthly_usd": 149}, {"name": "Growth", "monthly_usd": 199} ],
+      "public_pricing": true
+    },
+    {
+      "id": "teachable",
+      "name": "Teachable",
+      "category": "course",
+      "website": "https://teachable.com",
+      "pricing_page": "https://teachable.com/pricing",
+      "affiliate": { "program_url": "https://teachable.com/affiliates", "model": "recurring", "rate_approx": "30% recurring", "cookie_days": 30, "verified": false },
+      "pricing_tiers": [ {"name": "Basic", "monthly_usd": 59}, {"name": "Pro", "monthly_usd": 159}, {"name": "Pro+", "monthly_usd": 249} ],
+      "public_pricing": true
+    },
+    {
+      "id": "thinkific",
+      "name": "Thinkific",
+      "category": "course",
+      "website": "https://www.thinkific.com",
+      "pricing_page": "https://www.thinkific.com/pricing",
+      "affiliate": { "program_url": "https://www.thinkific.com/affiliates", "model": "recurring", "rate_approx": "up to 30% recurring", "cookie_days": 90, "verified": false },
+      "pricing_tiers": [ {"name": "Basic", "monthly_usd": 49}, {"name": "Start", "monthly_usd": 99}, {"name": "Grow", "monthly_usd": 199} ],
+      "public_pricing": true
+    },
+    {
+      "id": "webflow",
+      "name": "Webflow",
+      "category": "website",
+      "website": "https://webflow.com",
+      "pricing_page": "https://webflow.com/pricing",
+      "affiliate": { "program_url": "https://webflow.com/partner-program", "model": "flat", "rate_approx": "50% of first year", "cookie_days": 90, "verified": false },
+      "pricing_tiers": [ {"name": "Basic", "monthly_usd": 14}, {"name": "CMS", "monthly_usd": 23}, {"name": "Business", "monthly_usd": 39} ],
+      "public_pricing": true
+    },
+    {
+      "id": "builderall",
+      "name": "Builderall",
+      "category": "all-in-one",
+      "website": "https://builderall.com",
+      "pricing_page": "https://builderall.com/pricing",
+      "affiliate": { "program_url": "https://builderall.com/affiliate", "model": "recurring", "rate_approx": "30% + tiers", "cookie_days": null, "verified": false },
+      "pricing_tiers": [ {"name": "Cheetah", "monthly_usd": 16}, {"name": "Marketer", "monthly_usd": 32}, {"name": "Premium", "monthly_usd": 62} ],
+      "public_pricing": true
+    },
+    {
+      "id": "podia",
+      "name": "Podia",
+      "category": "course",
+      "website": "https://www.podia.com",
+      "pricing_page": "https://www.podia.com/pricing",
+      "affiliate": { "program_url": "https://www.podia.com/affiliates", "model": "recurring", "rate_approx": "30% recurring", "cookie_days": 30, "verified": false },
+      "pricing_tiers": [ {"name": "Mover", "monthly_usd": 39}, {"name": "Shaker", "monthly_usd": 89} ],
+      "public_pricing": true
+    },
+    {
+      "id": "convertkit",
+      "name": "Kit (ConvertKit)",
+      "category": "email",
+      "website": "https://kit.com",
+      "pricing_page": "https://kit.com/pricing",
+      "affiliate": { "program_url": "https://kit.com/affiliate", "model": "recurring", "rate_approx": "30% recurring (24mo)", "cookie_days": 90, "verified": false },
+      "pricing_tiers": [ {"name": "Free", "monthly_usd": 0}, {"name": "Creator", "monthly_usd": 29}, {"name": "Creator Pro", "monthly_usd": 59} ],
+      "public_pricing": true
+    }
+  ]
+}
