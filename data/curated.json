@@ -48,6 +48,15 @@
       ]
     },
     {
+      "id": "teachable", "name": "Teachable", "category": "course",
+      "website": "https://teachable.com", "pricing_page": "https://teachable.com/pricing",
+      "affiliate": {"program_url": "https://teachable.com/affiliates", "model": "recurring", "rate_approx": "30% recurring"},
+      "tiers": [
+        {"name": "Builder", "monthly_usd": 89}, {"name": "Growth", "monthly_usd": 189},
+        {"name": "Advanced", "monthly_usd": 399}
+      ]
+    },
+    {
       "id": "convertkit", "name": "Kit (ConvertKit)", "category": "email",
       "website": "https://kit.com", "pricing_page": "https://kit.com/pricing",
       "affiliate": {"program_url": "https://kit.com/affiliate", "model": "recurring", "rate_approx": "30% recurring (24mo)"},

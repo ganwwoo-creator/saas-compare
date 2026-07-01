@@ -22,9 +22,30 @@ OUT = ROOT / "data" / "tiers.json"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120 Safari/537.36")
 
-# Per-site overrides: id -> {"card": <css for each plan card>, "name": <css>, ... }
-# Filled in only for sites the generic extractor misses. Empty to start.
-SELECTORS: dict[str, dict] = {}
+# Per-site overrides for sites the generic extractor can't handle (page-builder DOMs).
+# id -> {card: css for each plan card, name: css for the plan-name element, words: how
+# many leading words of the name to keep}. Verified against the live DOM.
+SELECTORS: dict[str, dict] = {
+    "teachable": {"card": "div.pricing-green_component", "name": "div[class*=title]", "words": 1},
+}
+
+# Override extractor: pull cards by explicit per-site selectors.
+OVERRIDE_JS = r"""
+(sel) => {
+  return [...document.querySelectorAll(sel.card)].map(c => {
+    const h = c.querySelector(sel.name) || c;
+    const raw = h.textContent.trim().replace(/\s+/g, ' ')
+                 .replace(/([a-z])([A-Z])/g, '$1 $2')
+                 .split(/\s*(?:Save|\$)/i)[0].trim()
+                 .split(' ').slice(0, sel.words || 1).join(' ');
+    const cleaned = c.textContent.replace(/save\s*\$\s?\d[\d.,]*/ig, ' ');
+    let price = null, period = null, m;
+    if ((m = cleaned.match(/\$\s?(\d{1,4})\s*\/?\s*(?:mo|month)/i))) { price = +m[1]; period = 'mo'; }
+    else if ((m = cleaned.match(/\$\s?(\d{1,4})/))) { price = +m[1]; }
+    return {raw, price, period};
+  }).filter(x => x.price != null);
+}
+"""
 
 # Combined extractor: find the pricing GRID (sibling group with the most price+heading
 # cards) so each price stays card-scoped (fixes cross-tier price collisions), then NAME
@@ -74,6 +95,16 @@ def extract(page, tool):
     the scraped heading and flag it (name_source='scraped') so it's an obvious override
     candidate rather than a silent mislabel.
     """
+    if tool["id"] in SELECTORS:
+        cards = page.evaluate(OVERRIDE_JS, SELECTORS[tool["id"]])
+        out, seen = [], set()  # monthly grid comes first; keep first price per plan name
+        for c in cards:
+            if c["raw"] in seen:
+                continue
+            seen.add(c["raw"])
+            out.append({"name": c["raw"], "price": c["price"],
+                        "period": c["period"], "name_source": "override"})
+        return out
     seed = [t["name"] for t in tool.get("pricing_tiers", [])]
     cards = page.evaluate(GENERIC_JS, seed)
     aligned = len(cards) == len(seed) and len(seed) >= 2
@@ -100,7 +131,8 @@ def main():
                 rec["tiers"] = tiers
                 # Trust only when the grid aligned to the seed (name_source=seed);
                 # scraped-name rows are flagged for a per-site selector, not shipped as clean.
-                trusted = len(tiers) >= 2 and all(x["name_source"] == "seed" for x in tiers)
+                trusted = len(tiers) >= 2 and all(
+                    x["name_source"] in ("seed", "override") for x in tiers)
                 rec["status"] = "ok" if trusted else "needs_override"
             except Exception as e:
                 rec["status"] = f"error: {type(e).__name__}"
