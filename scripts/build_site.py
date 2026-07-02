@@ -8,11 +8,13 @@ after you're approved. The "data verified on <date>" badge is the moat signal.
 """
 import html
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "curated.json"
 TIERS = ROOT / "data" / "tiers.json"  # fresh scrape; prices overlaid onto curated when safe
+CONTENT = ROOT / "content"  # guide article fragments (Korean, target real search demand)
 SITE = ROOT / "site"
 
 CSS = """
@@ -28,6 +30,11 @@ tr:last-child td{border-bottom:0}
 .pay{color:#2b8a3e;font-weight:600}
 .btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;white-space:nowrap}
 .mut{color:var(--mut);font-size:.9rem}
+.free{display:inline-block;background:#ebfbee;color:#2b8a3e;border:1px solid #b2f2bb;border-radius:999px;padding:1px 10px;font-size:.8rem;font-weight:600;margin-left:6px}
+.callout{background:#fff9db;border:1px solid #ffe066;border-radius:12px;padding:14px 18px;margin:1em 0}
+.guides{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 18px;margin:1em 0}
+.guides li{margin:.5em 0}
+article h2{margin-top:1.8em}article h3{margin-top:1.3em}
 footer{margin-top:3em;padding-top:1.2em;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}
 """
 
@@ -61,24 +68,37 @@ CATEGORY_KO = {"all-in-one": "올인원", "funnel": "판매 퍼널", "course": "
                "email": "이메일", "checkout": "결제", "website": "홈페이지"}
 
 
-def build_index(data):
+def has_free(tool):
+    return any(x["monthly_usd"] == 0 for x in tool["tiers"])
+
+
+def build_index(data, guides):
     rows = []
     for t in sorted(data["tools"], key=start_price):
         sp = start_price(t)
         cat = CATEGORY_KO.get(t["category"], t["category"])
+        free = "<span class='free'>무료 시작</span>" if has_free(t) else ""
         rows.append(
-            f"<tr><td><a href='tools/{t['id']}.html'>{html.escape(t['name'])}</a>"
+            f"<tr><td><a href='tools/{t['id']}.html'>{html.escape(t['name'])}</a>{free}"
             f"<div class='mut'>{html.escape(t.get('desc_ko', ''))}</div></td>"
             f"<td>{html.escape(cat)}</td>"
-            f"<td>{'무료~' if any(x['monthly_usd'] == 0 for x in t['tiers']) else ''}월 ${sp}</td>"
+            f"<td>{'무료~' if has_free(t) else ''}월 ${sp}</td>"
             f"<td>{aff_link(t, '보러가기', 'btn')}</td></tr>")
+    free_tools = [t for t in data["tools"] if has_free(t)]
+    free_names = ", ".join(
+        f"<a href='tools/{t['id']}.html'>{html.escape(t['name'])}</a>" for t in free_tools)
+    guide_links = "".join(
+        f"<li><a href='guides/{g['slug']}.html'>{html.escape(g['title'])}</a></li>" for g in guides)
     body = (
         f"<h1>온라인 강의·홈페이지 제작 도구 가격 비교</h1>"
         f"<p><span class='badge'>가격 확인일 {html.escape(data['verified_on'])}</span></p>"
         f"<p class='mut'>온라인 강의 판매, 홈페이지·판매 페이지 제작, 이메일 마케팅 도구를 "
         f"시작 가격이 싼 순서로 정리했습니다. 가격은 자동으로 매주 갱신됩니다.</p>"
+        f"<div class='callout'>💡 <strong>돈 안 들이고 시작하고 싶다면:</strong> {free_names}"
+        f" — 무료 플랜으로 먼저 써 보고, 필요할 때만 유료로 올리면 됩니다.</div>"
         f"<table><thead><tr><th>도구</th><th>종류</th><th>시작 가격</th>"
         f"<th></th></tr></thead><tbody>{''.join(rows)}</tbody></table>"
+        f"<h2>가이드</h2><div class='guides'><ul>{guide_links}</ul></div>"
         f"<h2>참고하세요</h2>"
         f"<p class='mut'>모두 해외 서비스라 화면은 기본 영어이고, 결제에는 해외 결제가 되는 "
         f"카드(비자·마스터 등)가 필요합니다. 표시 가격은 달러(USD)이며 대부분 연 단위 결제 기준 "
@@ -135,14 +155,56 @@ def merge_fresh(data):
     return fresh_date if updated else data["verified_on"]
 
 
+def render_guides(data):
+    """Render content/*.html fragments into site/guides/.
+
+    Fragments may embed live-data tokens so guide articles never show stale prices
+    (the weekly cron refreshes them together with the table):
+      {{PRICE:tool-id:TierName}} -> "월 $17" / "무료"
+      {{AFF:tool-id:라벨}}        -> affiliate button
+      {{LINK:tool-id}}           -> link to the tool page
+    First <h1> in the fragment is used as the page title.
+    """
+    tools = {t["id"]: t for t in data["tools"]}
+
+    def price_tok(m):
+        t = tools[m.group(1)]
+        tier = next((x for x in t["tiers"] if x["name"] == m.group(2)), None)
+        if tier is None:
+            return "가격 확인 필요"
+        return "무료" if tier["monthly_usd"] == 0 else f"월 ${tier['monthly_usd']}"
+
+    guides = []
+    if not CONTENT.exists():
+        return guides
+    (SITE / "guides").mkdir(parents=True, exist_ok=True)
+    for frag in sorted(CONTENT.glob("*.html")):
+        body = frag.read_text()
+        body = re.sub(r"\{\{PRICE:([\w.-]+):([^}]+)\}\}", price_tok, body)
+        body = re.sub(r"\{\{AFF:([\w.-]+):([^}]+)\}\}",
+                      lambda m: aff_link(tools[m.group(1)], m.group(2)), body)
+        body = re.sub(r"\{\{LINK:([\w.-]+)\}\}",
+                      lambda m: f"<a href='../tools/{m.group(1)}.html'>"
+                                f"{html.escape(tools[m.group(1)]['name'])}</a>", body)
+        title_m = re.search(r"<h1>(.*?)</h1>", body)
+        title = re.sub(r"<[^>]+>", "", title_m.group(1)) if title_m else frag.stem
+        nav = "<p><a href='../index.html'>&larr; 가격 비교표로</a></p>"
+        (SITE / "guides" / f"{frag.stem}.html").write_text(
+            page(title, f"{nav}<article>{body}</article>"))
+        guides.append({"slug": frag.stem, "title": title})
+    return guides
+
+
 def main():
     data = json.loads(DATA.read_text())
     data["verified_on"] = merge_fresh(data)
     (SITE / "tools").mkdir(parents=True, exist_ok=True)
-    (SITE / "index.html").write_text(build_index(data))
+    guides = render_guides(data)
+    (SITE / "index.html").write_text(build_index(data, guides))
     for t in data["tools"]:
         (SITE / "tools" / f"{t['id']}.html").write_text(build_tool(t))
-    print(f"built site/index.html + {len(data['tools'])} tool pages -> {SITE}")
+    print(f"built site/index.html + {len(data['tools'])} tool pages "
+          f"+ {len(guides)} guides -> {SITE}")
 
 
 if __name__ == "__main__":
