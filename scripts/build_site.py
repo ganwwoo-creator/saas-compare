@@ -43,6 +43,8 @@ footer{margin-top:3em;padding-top:1.2em;border-top:1px solid var(--line);color:v
 def page(title, body):
     return (f"<!doctype html><html lang='ko'><head><meta charset='utf-8'>"
             f"<meta name='viewport' content='width=device-width,initial-scale=1'>"
+            f"<meta name='google-site-verification' "
+            f"content='7LufQyBjdjB0oki2FLN222vLHq7l7K1CoA_L5jmdlHA'>"
             f"<title>{html.escape(title)}</title><style>{CSS}</style></head>"
             f"<body><div class='wrap'>{body}"
             f"<footer><strong>제휴 안내:</strong> 일부 링크는 제휴 링크입니다. "
