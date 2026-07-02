@@ -16,6 +16,7 @@ DATA = ROOT / "data" / "curated.json"
 TIERS = ROOT / "data" / "tiers.json"  # fresh scrape; prices overlaid onto curated when safe
 CONTENT = ROOT / "content"  # guide article fragments (Korean, target real search demand)
 SITE = ROOT / "site"
+BASE_URL = "https://ganwwoo-creator.github.io/saas-compare"
 
 CSS = """
 :root{--fg:#1a1a2e;--mut:#6b7280;--acc:#3b5bdb;--bg:#f7f8fc;--card:#fff;--line:#e5e7eb}
@@ -195,6 +196,22 @@ def render_guides(data):
     return guides
 
 
+def write_seo_files(data, guides):
+    """sitemap.xml + robots.txt so Google/Naver can discover every page."""
+    urls = ([f"{BASE_URL}/"]
+            + [f"{BASE_URL}/tools/{t['id']}.html" for t in data["tools"]]
+            + [f"{BASE_URL}/guides/{g['slug']}.html" for g in guides])
+    lastmod = data["verified_on"]
+    entries = "\n".join(
+        f"  <url><loc>{u}</loc><lastmod>{lastmod}</lastmod></url>" for u in urls)
+    (SITE / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{entries}\n</urlset>\n")
+    (SITE / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n")
+
+
 def main():
     data = json.loads(DATA.read_text())
     data["verified_on"] = merge_fresh(data)
@@ -203,8 +220,9 @@ def main():
     (SITE / "index.html").write_text(build_index(data, guides))
     for t in data["tools"]:
         (SITE / "tools" / f"{t['id']}.html").write_text(build_tool(t))
+    write_seo_files(data, guides)
     print(f"built site/index.html + {len(data['tools'])} tool pages "
-          f"+ {len(guides)} guides -> {SITE}")
+          f"+ {len(guides)} guides + sitemap.xml/robots.txt -> {SITE}")
 
 
 if __name__ == "__main__":
