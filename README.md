@@ -25,8 +25,10 @@
 4. ⬜ **제휴 링크(내 ref ID) + 지표 추적** — 핵심지표 "전환당 수익". 제휴 프로그램 가입(사람) 필요.
 5. ⬜ **무인 갱신** — cron으로 2→2.5→3 자동 재실행·재배포 + 도메인/호스팅 배포.
 
-### 백필 대기 (2.5)
-kartra·samcart·webflow·builderall·teachable·thinkific — 결정적 추출 실패(애드온/프로모/토글). 사이트별 파서 작성 또는 LLM 추출로 전환 시 해결.
+### 백필 현황 (2.5)
+- ✅ **teachable** — 사이트별 셀렉터(`SELECTORS`)로 해결, curated 추가 → **7종 라이브**
+- ⚠️ samcart·thinkific — Framer 자동클래스 / 무거운 JS라 취약. 재시도 or 수동 인증 필요
+- ❌ kartra·webflow·builderall — 페이지빌더 DOM/탭 구조라 **결정적 추출 비현실적**. LLM 추출로 전환하거나 수동 인증본으로만 추가 권장
 
 ## 구조
 

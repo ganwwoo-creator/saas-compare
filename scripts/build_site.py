@@ -26,20 +26,20 @@ th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
 th{background:#f1f3f9;font-size:.85rem;letter-spacing:.02em;text-transform:uppercase;color:var(--mut)}
 tr:last-child td{border-bottom:0}
 .pay{color:#2b8a3e;font-weight:600}
-.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;white-space:nowrap}
 .mut{color:var(--mut);font-size:.9rem}
 footer{margin-top:3em;padding-top:1.2em;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}
 """
 
 
 def page(title, body):
-    return (f"<!doctype html><html lang='en'><head><meta charset='utf-8'>"
+    return (f"<!doctype html><html lang='ko'><head><meta charset='utf-8'>"
             f"<meta name='viewport' content='width=device-width,initial-scale=1'>"
             f"<title>{html.escape(title)}</title><style>{CSS}</style></head>"
             f"<body><div class='wrap'>{body}"
-            f"<footer><strong>Affiliate disclosure:</strong> some links are affiliate links "
-            f"(rel=sponsored). We may earn a commission at no extra cost to you. "
-            f"Pricing is auto-collected and human-verified; always confirm on the vendor's site."
+            f"<footer><strong>제휴 안내:</strong> 일부 링크는 제휴 링크입니다. "
+            f"링크를 통해 가입하셔도 추가 비용은 없으며, 저희가 소정의 수수료를 받을 수 있습니다. "
+            f"가격은 자동 수집 후 사람이 확인한 것으로, 최종 가격은 각 공식 사이트에서 꼭 확인하세요."
             f"</footer></div></body></html>")
 
 
@@ -57,42 +57,53 @@ def start_price(tool):
     return min(t["monthly_usd"] for t in paid) if paid else 0
 
 
+CATEGORY_KO = {"all-in-one": "올인원", "funnel": "판매 퍼널", "course": "온라인 강의",
+               "email": "이메일", "checkout": "결제", "website": "홈페이지"}
+
+
 def build_index(data):
     rows = []
     for t in sorted(data["tools"], key=start_price):
         sp = start_price(t)
+        cat = CATEGORY_KO.get(t["category"], t["category"])
         rows.append(
-            f"<tr><td><a href='tools/{t['id']}.html'>{html.escape(t['name'])}</a></td>"
-            f"<td>{html.escape(t['category'])}</td>"
-            f"<td>${sp}/mo</td><td>{len(t['tiers'])}</td>"
-            f"<td class='pay'>{html.escape(t['affiliate']['rate_approx'])}</td>"
-            f"<td>{aff_link(t, 'Visit', 'btn')}</td></tr>")
+            f"<tr><td><a href='tools/{t['id']}.html'>{html.escape(t['name'])}</a>"
+            f"<div class='mut'>{html.escape(t.get('desc_ko', ''))}</div></td>"
+            f"<td>{html.escape(cat)}</td>"
+            f"<td>{'무료~' if any(x['monthly_usd'] == 0 for x in t['tiers']) else ''}월 ${sp}</td>"
+            f"<td>{aff_link(t, '보러가기', 'btn')}</td></tr>")
     body = (
-        f"<h1>Online Business Builder SaaS — Compared</h1>"
-        f"<p><span class='badge'>Pricing verified {html.escape(data['verified_on'])}</span></p>"
-        f"<p class='mut'>Funnel, checkout, course &amp; all-in-one platforms, ranked by "
-        f"starting price. Data auto-collected and human-checked.</p>"
-        f"<table><thead><tr><th>Tool</th><th>Category</th><th>From</th><th>Plans</th>"
-        f"<th>Affiliate payout</th><th></th></tr></thead><tbody>{''.join(rows)}</tbody></table>")
-    return page("Online Business Builder SaaS — Compared", body)
+        f"<h1>온라인 강의·홈페이지 제작 도구 가격 비교</h1>"
+        f"<p><span class='badge'>가격 확인일 {html.escape(data['verified_on'])}</span></p>"
+        f"<p class='mut'>온라인 강의 판매, 홈페이지·판매 페이지 제작, 이메일 마케팅 도구를 "
+        f"시작 가격이 싼 순서로 정리했습니다. 가격은 자동으로 매주 갱신됩니다.</p>"
+        f"<table><thead><tr><th>도구</th><th>종류</th><th>시작 가격</th>"
+        f"<th></th></tr></thead><tbody>{''.join(rows)}</tbody></table>"
+        f"<h2>참고하세요</h2>"
+        f"<p class='mut'>모두 해외 서비스라 화면은 기본 영어이고, 결제에는 해외 결제가 되는 "
+        f"카드(비자·마스터 등)가 필요합니다. 표시 가격은 달러(USD)이며 대부분 연 단위 결제 기준 "
+        f"월 환산 가격입니다.</p>")
+    return page("온라인 강의·홈페이지 제작 도구 가격 비교 (2026)", body)
 
 
 def build_tool(tool):
     trows = "".join(
         f"<tr><td>{html.escape(t['name'])}</td>"
-        f"<td>{'Free' if t['monthly_usd'] == 0 else '$' + str(t['monthly_usd']) + '/mo'}</td></tr>"
+        f"<td>{'무료' if t['monthly_usd'] == 0 else '월 $' + str(t['monthly_usd'])}</td></tr>"
         for t in tool["tiers"])
+    cat = CATEGORY_KO.get(tool["category"], tool["category"])
     body = (
-        f"<p><a href='../index.html'>&larr; All tools</a></p>"
-        f"<h1>{html.escape(tool['name'])}</h1>"
-        f"<p class='mut'>{html.escape(tool['category'])} · "
-        f"<a href='{html.escape(tool['website'])}' rel='nofollow' target='_blank'>website</a></p>"
-        f"<h2>Pricing</h2><table><thead><tr><th>Plan</th><th>Monthly</th></tr></thead>"
+        f"<p><a href='../index.html'>&larr; 전체 비교표로</a></p>"
+        f"<h1>{html.escape(tool['name'])} 가격 정리</h1>"
+        f"<p class='mut'>{html.escape(cat)} · "
+        f"<a href='{html.escape(tool['website'])}' rel='nofollow' target='_blank'>공식 사이트</a></p>"
+        f"<p>{html.escape(tool.get('desc_ko', ''))}</p>"
+        f"<h2>요금제</h2><table><thead><tr><th>플랜</th><th>가격</th></tr></thead>"
         f"<tbody>{trows}</tbody></table>"
-        f"<p><strong>Affiliate:</strong> {html.escape(tool['affiliate']['rate_approx'])} "
-        f"({html.escape(tool['affiliate']['model'])})</p>"
-        f"<p>{aff_link(tool, 'Get ' + tool['name'])}</p>")
-    return page(f"{tool['name']} pricing & review", body)
+        f"<p class='mut'>달러(USD) 기준이며 대부분 연 단위 결제 시 월 환산 가격입니다. "
+        f"해외 결제 가능한 카드가 필요합니다.</p>"
+        f"<p>{aff_link(tool, tool['name'] + ' 시작하기')}</p>")
+    return page(f"{tool['name']} 가격·요금제 정리 (2026)", body)
 
 
 def merge_fresh(data):

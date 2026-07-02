@@ -3,67 +3,201 @@
   "verified_on": "2026-07-02",
   "tools": [
     {
-      "id": "systeme-io", "name": "Systeme.io", "category": "all-in-one",
-      "website": "https://systeme.io", "pricing_page": "https://systeme.io/pricing",
-      "affiliate": {"program_url": "https://systeme.io/affiliate-program", "model": "recurring", "rate_approx": "60% lifetime"},
+      "id": "systeme-io",
+      "name": "Systeme.io",
+      "category": "all-in-one",
+      "website": "https://systeme.io",
+      "pricing_page": "https://systeme.io/pricing",
+      "affiliate": {
+        "program_url": "https://systeme.io/affiliate-program",
+        "model": "recurring",
+        "rate_approx": "60% lifetime"
+      },
       "tiers": [
-        {"name": "Free", "monthly_usd": 0}, {"name": "Startup", "monthly_usd": 17},
-        {"name": "Webinar", "monthly_usd": 47}, {"name": "Unlimited", "monthly_usd": 97}
-      ]
+        {
+          "name": "Free",
+          "monthly_usd": 0
+        },
+        {
+          "name": "Startup",
+          "monthly_usd": 17
+        },
+        {
+          "name": "Webinar",
+          "monthly_usd": 47
+        },
+        {
+          "name": "Unlimited",
+          "monthly_usd": 97
+        }
+      ],
+      "desc_ko": "홈페이지·이메일·온라인 강의를 한 곳에서 해결하는 올인원 도구. 무료 플랜이 있어 시작 부담이 없고 가성비가 강점."
     },
     {
-      "id": "gohighlevel", "name": "GoHighLevel", "category": "all-in-one",
-      "website": "https://www.gohighlevel.com", "pricing_page": "https://www.gohighlevel.com/pricing",
-      "affiliate": {"program_url": "https://www.gohighlevel.com/affiliates", "model": "recurring", "rate_approx": "40% lifetime + 5% tier2"},
+      "id": "gohighlevel",
+      "name": "GoHighLevel",
+      "category": "all-in-one",
+      "website": "https://www.gohighlevel.com",
+      "pricing_page": "https://www.gohighlevel.com/pricing",
+      "affiliate": {
+        "program_url": "https://www.gohighlevel.com/affiliates",
+        "model": "recurring",
+        "rate_approx": "40% lifetime + 5% tier2"
+      },
       "tiers": [
-        {"name": "Starter", "monthly_usd": 97}, {"name": "Unlimited", "monthly_usd": 297},
-        {"name": "Pro/SaaS", "monthly_usd": 497}
-      ]
+        {
+          "name": "Starter",
+          "monthly_usd": 97
+        },
+        {
+          "name": "Unlimited",
+          "monthly_usd": 297
+        },
+        {
+          "name": "Pro/SaaS",
+          "monthly_usd": 497
+        }
+      ],
+      "desc_ko": "마케팅 대행사·에이전시용 올인원 도구(고객관리+문자·이메일+예약). 개인보다는 사업자용."
     },
     {
-      "id": "kajabi", "name": "Kajabi", "category": "course",
-      "website": "https://kajabi.com", "pricing_page": "https://kajabi.com/pricing",
-      "affiliate": {"program_url": "https://kajabi.com/partners", "model": "recurring", "rate_approx": "30% recurring"},
+      "id": "kajabi",
+      "name": "Kajabi",
+      "category": "course",
+      "website": "https://kajabi.com",
+      "pricing_page": "https://kajabi.com/pricing",
+      "affiliate": {
+        "program_url": "https://kajabi.com/partners",
+        "model": "recurring",
+        "rate_approx": "30% recurring"
+      },
       "tiers": [
-        {"name": "Starter", "monthly_usd": 89}, {"name": "Basic", "monthly_usd": 179},
-        {"name": "Growth", "monthly_usd": 249}, {"name": "Pro", "monthly_usd": 499}
-      ]
+        {
+          "name": "Starter",
+          "monthly_usd": 89
+        },
+        {
+          "name": "Basic",
+          "monthly_usd": 179
+        },
+        {
+          "name": "Growth",
+          "monthly_usd": 249
+        },
+        {
+          "name": "Pro",
+          "monthly_usd": 499
+        }
+      ],
+      "desc_ko": "프리미엄 온라인 강의·멤버십 플랫폼. 강의+홈페이지+이메일을 한 번에, 대신 가격대가 높음."
     },
     {
-      "id": "clickfunnels", "name": "ClickFunnels", "category": "funnel",
-      "website": "https://www.clickfunnels.com", "pricing_page": "https://www.clickfunnels.com/pricing",
-      "affiliate": {"program_url": "https://www.clickfunnels.com/affiliates", "model": "recurring", "rate_approx": "up to 30% recurring"},
+      "id": "clickfunnels",
+      "name": "ClickFunnels",
+      "category": "funnel",
+      "website": "https://www.clickfunnels.com",
+      "pricing_page": "https://www.clickfunnels.com/pricing",
+      "affiliate": {
+        "program_url": "https://www.clickfunnels.com/affiliates",
+        "model": "recurring",
+        "rate_approx": "up to 30% recurring"
+      },
       "tiers": [
-        {"name": "Launch", "monthly_usd": 97}, {"name": "Scale", "monthly_usd": 197},
-        {"name": "Optimize", "monthly_usd": 297}
-      ]
+        {
+          "name": "Launch",
+          "monthly_usd": 97
+        },
+        {
+          "name": "Scale",
+          "monthly_usd": 197
+        },
+        {
+          "name": "Optimize",
+          "monthly_usd": 297
+        }
+      ],
+      "desc_ko": "판매 페이지(퍼널) 제작 전문 도구. 상품을 단계별로 파는 구조를 만들 때 사용."
     },
     {
-      "id": "podia", "name": "Podia", "category": "course",
-      "website": "https://www.podia.com", "pricing_page": "https://www.podia.com/pricing",
-      "affiliate": {"program_url": "https://www.podia.com/affiliates", "model": "recurring", "rate_approx": "30% recurring"},
+      "id": "podia",
+      "name": "Podia",
+      "category": "course",
+      "website": "https://www.podia.com",
+      "pricing_page": "https://www.podia.com/pricing",
+      "affiliate": {
+        "program_url": "https://www.podia.com/affiliates",
+        "model": "recurring",
+        "rate_approx": "30% recurring"
+      },
       "tiers": [
-        {"name": "Mover", "monthly_usd": 42}, {"name": "Shaker", "monthly_usd": 84},
-        {"name": "Earthquaker", "monthly_usd": 150}
-      ]
+        {
+          "name": "Mover",
+          "monthly_usd": 42
+        },
+        {
+          "name": "Shaker",
+          "monthly_usd": 84
+        },
+        {
+          "name": "Earthquaker",
+          "monthly_usd": 150
+        }
+      ],
+      "desc_ko": "디지털 상품·강의를 간단하게 파는 도구. 기능은 적지만 쉽고 저렴함."
     },
     {
-      "id": "teachable", "name": "Teachable", "category": "course",
-      "website": "https://teachable.com", "pricing_page": "https://teachable.com/pricing",
-      "affiliate": {"program_url": "https://teachable.com/affiliates", "model": "recurring", "rate_approx": "30% recurring"},
+      "id": "teachable",
+      "name": "Teachable",
+      "category": "course",
+      "website": "https://teachable.com",
+      "pricing_page": "https://teachable.com/pricing",
+      "affiliate": {
+        "program_url": "https://teachable.com/affiliates",
+        "model": "recurring",
+        "rate_approx": "30% recurring"
+      },
       "tiers": [
-        {"name": "Builder", "monthly_usd": 89}, {"name": "Growth", "monthly_usd": 189},
-        {"name": "Advanced", "monthly_usd": 399}
-      ]
+        {
+          "name": "Builder",
+          "monthly_usd": 89
+        },
+        {
+          "name": "Growth",
+          "monthly_usd": 189
+        },
+        {
+          "name": "Advanced",
+          "monthly_usd": 399
+        }
+      ],
+      "desc_ko": "온라인 강의 판매 플랫폼. 한국 사용자 후기가 있는 편이며 강의 하나로 시작하기 좋음."
     },
     {
-      "id": "convertkit", "name": "Kit (ConvertKit)", "category": "email",
-      "website": "https://kit.com", "pricing_page": "https://kit.com/pricing",
-      "affiliate": {"program_url": "https://kit.com/affiliate", "model": "recurring", "rate_approx": "30% recurring (24mo)"},
+      "id": "convertkit",
+      "name": "Kit (ConvertKit)",
+      "category": "email",
+      "website": "https://kit.com",
+      "pricing_page": "https://kit.com/pricing",
+      "affiliate": {
+        "program_url": "https://kit.com/affiliate",
+        "model": "recurring",
+        "rate_approx": "30% recurring (24mo)"
+      },
       "tiers": [
-        {"name": "Free", "monthly_usd": 0}, {"name": "Creator", "monthly_usd": 33},
-        {"name": "Creator Pro", "monthly_usd": 66}
-      ]
+        {
+          "name": "Free",
+          "monthly_usd": 0
+        },
+        {
+          "name": "Creator",
+          "monthly_usd": 33
+        },
+        {
+          "name": "Creator Pro",
+          "monthly_usd": 66
+        }
+      ],
+      "desc_ko": "크리에이터용 이메일 마케팅 도구(뉴스레터). 구독자 1만 명까지 무료 플랜 제공."
     }
   ]
 }
